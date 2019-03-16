@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<style>
+	</style>
+	<meta charset="UTF-8">
+	<title>style </title>
+</head>
+<body>
+	<label for="" class="result"></label><br>
+	<input type="text" id="amount"> 
+	<label for="">amount</label><br>
+	<input type="text" id="apr">
+	<label for="">apr</label><br>
+	<input type="text" id="years">
+	<label for="">years</label><br>
+	<input type="text" id="zipcode">
+	<label for="">zipcode</label><br>
+	<input type="text" id="payment">
+	<label for="">payment</label><br>
+	<input type="text" id="total">
+	<label for="">total</label><br>
+	<input type="text" id="totalinterest">
+	<label for="">totalinterest</label><br>
+	
+	<script>
+		function calculate() {
+			let amount = document.getElementById('amount'),
+			apr = document.getElementById('apr'),
+			years = document.getElementById('years'),
+			zipcode = document.getElementById('zipcode'),
+			payment = document.getElementById('payment'),
+			total = document.getElementById('total'),
+			totalinterest = document.getElementById('totalinterest'),
+			principal = parseFloat(amount.value),
+			interest = parseFloat(apr.value) / 100 / 12,
+			payments = parseFloat(years.value) * 12,
+			x = Math.pow(1 + interest,  payments), // степень
+			monthly = (principal * x * interest) / (x - 1);
+
+			if (isFinite(monthly)) {
+				payment.innerHTML = monthly.toFixed(2);
+				total.innerHTML = (monthly * payments).toFixed();
+				totalinterest.innerHTML = ((monthly * payments) - principal).toFixed(2);
+				save(amount.value, apr.value, years.value, zipcode.value);
+				try {
+					getLenders(amount.value, apr.value, years.value, zipcode.value);
+				}
+				catch (e) {/*игнорируем ошибки*/ }
+				chart(principal, interest, monthly, payments);
+			} else {
+				payment.innerHTML = "";
+				total.innerHTML = "";
+				totalinterest.innerHTML = "";
+				chart();
+			}
+		}
+		
+
+	</script>
+</body>
+</html>
